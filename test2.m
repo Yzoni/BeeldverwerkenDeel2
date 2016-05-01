@@ -15,7 +15,8 @@ end
 xy = selF1(1:2,3:6);
 xaya = selF2(1:2,3:6);
 
-T = maketform('projective', xy', xaya');
+P = createProjectionMatrix(xy', xaya')';
+T = maketform('projective', P);
 
 [x,  y] = tformfwd(T,[1 size(im1,2)], [1 size(im1,1)]);
 
