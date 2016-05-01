@@ -7,13 +7,33 @@ im2 = single(rgb2gray(im2double(imread('nachtwacht2.jpg'))));
 [~, length] = size(matches);
 selF1 = zeros(4, length);
 selF2 = zeros(4, length);
+
+scores(2,:) = 1:length;
+newMatches = zeros(2, length);
+tempScores = scores;
+
 for i=1:length
-    selF1(:,i)=F1(:,matches(1,i));
-    selF2(:,i)=F2(:,matches(2,i));
+    [~, newLength] = size(tempScores);
+    limit = 0;
+    index = 0;
+    for j=1:newLength
+        if(tempScores(1,j)>limit)
+            index = j;
+            limit = tempScores(1,j);
+        end
+    end
+    newMatches(:,i) = matches(:,index);
+    tempScores(:,index) = [];
 end
 
-xy = selF1(1:2,3:6);
-xaya = selF2(1:2,3:6);
+for i=1:length
+    selF1(:,i)=F1(:,newMatches(1,i));
+    selF2(:,i)=F2(:,newMatches(2,i));
+end
+
+figure
+xy = selF1(1:2,1:4);
+xaya = selF2(1:2,1:4);
 
 P = createProjectionMatrix(xy', xaya')';
 T = maketform('projective', P);

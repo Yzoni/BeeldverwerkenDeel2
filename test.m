@@ -7,9 +7,26 @@ im2 = single(rgb2gray(im2double(imread('nachtwacht2.jpg'))));
 [~, length] = size(matches);
 selF1 = zeros(4, length);
 selF2 = zeros(4, length);
+
+scores(2,:) = 1:length;
+newMatches = zeros(2, length);
 for i=1:length
-    selF1(:,i)=F1(:,matches(1,i));
-    selF2(:,i)=F2(:,matches(2,i));
+    [~, newLength] = size(scores);
+    limit = 0;
+    index = 0;
+    for j=1:newLength
+        if(scores(1,j)>limit)
+            index = j;
+            limit = scores(1,j);
+        end
+    end
+    newMatches(:,i) = matches(:,index);
+    scores(:,index) = [];
+end
+
+for i=1:length
+    selF1(:,i)=F1(:,newMatches(1,i));
+    selF2(:,i)=F2(:,newMatches(2,i));
 end
 
 figure;
