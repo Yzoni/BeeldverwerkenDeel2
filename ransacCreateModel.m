@@ -15,7 +15,7 @@ function [ P, error_vector ] = ransacCreateModel( coor1, coor2, indices )
     h_projected_coor1 = P * h_coor1;
     
     % Normalize error
-
+    
     % Remove last row from homogenous coordinate system
     projected_coor1 = h_projected_coor1(1:2,:);
     

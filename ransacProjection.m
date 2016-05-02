@@ -7,7 +7,7 @@ function [ P ] = ransacProjection( coor1, coor2, n, k, t, d )
 %   d = the number of close data values required to assert that a model 
 %       fits well to data as percentage
 %
-%   bestfit = the projection matrix
+%   P = the projection matrix
 
 total_error = inf;
 
