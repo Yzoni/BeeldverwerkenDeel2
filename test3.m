@@ -7,9 +7,9 @@ im2 = single(rgb2gray(im2double(imread('nachtwacht2.jpg'))));
 [~, length] = size(matches);
 selF1 = zeros(4, length);
 selF2 = zeros(4, length);
-
 scores(2,:) = 1:length;
 newMatches = zeros(2, length);
+
 for i=1:length
     [~, newLength] = size(scores);
     limit = 0;
@@ -28,17 +28,20 @@ for i=1:length
     selF1(:,i)=F1(:,newMatches(1,i));
     selF2(:,i)=F2(:,newMatches(2,i));
 end
-
 figure;
 imshow(im1);
-h1 = vl_plotframe(selF1(:,1:5)) ;
-h2 = vl_plotframe(selF1(:,1:5)) ;
+perm = randperm(size(F1,2)) ;
+sel = perm(1:50) ;
+h1 = vl_plotframe(F1(:,sel)) ;
+h2 = vl_plotframe(F1(:,sel)) ;
 set(h1,'color','k','linewidth',3) ;
 set(h2,'color','y','linewidth',2) ;
 
 figure;
 imshow(im2);
-h1 = vl_plotframe(selF2(:,1:5)) ;
-h2 = vl_plotframe(selF2(:,1:5)) ;
+perm = randperm(size(F2,2)) ;
+sel = perm(1:50) ;
+h1 = vl_plotframe(F2(:,sel)) ;
+h2 = vl_plotframe(F2(:,sel)) ;
 set(h1,'color','k','linewidth',3) ;
 set(h2,'color','y','linewidth',2) ;
