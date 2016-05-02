@@ -63,7 +63,7 @@ matches_im2 = matches(2,:);
 matches_im2_coor = F2(1:2,matches_im2);
 
 % RANSAC projection matrix
-P = ransacProjection(matches_im1_coor, matches_im2_coor, 4, 20, 1, 0.4);
+P = ransacProjection(matches_im1_coor, matches_im2_coor, 4, 40, 1, 0.5);
 
 T = maketform('projective', P);
 
