@@ -1,5 +1,9 @@
+% Lucas van Berkel, 10747958
+% Yorick de Boer 10786015
+
+
 %% INIT
-clear
+%clear
 clc
 
 % Load images
@@ -17,7 +21,6 @@ demo_mosaic;
 % Coordinates from matching descriptors
 matches_im1 = matches(1,:);
 matches_im1_coor = F1(1:2,matches_im1);
-
 matches_im2 = matches(2,:);
 matches_im2_coor = F2(1:2,matches_im2);
 
@@ -56,12 +59,11 @@ end
 % Coordinates from matching descriptors
 matches_im1 = matches(1,:);
 matches_im1_coor = F1(1:2,matches_im1);
-
 matches_im2 = matches(2,:);
 matches_im2_coor = F2(1:2,matches_im2);
 
 % RANSAC projection matrix
-P = ransacProjection(matches_im1_coor, matches_im2_coor, 4, 20, 1, 0.3);
+P = ransacProjection(matches_im1_coor, matches_im2_coor, 4, 20, 1, 0.4);
 
 T = maketform('projective', P);
 
