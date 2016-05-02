@@ -12,6 +12,7 @@ function [ P ] = ransacProjection( coor1, coor2, n, k, t, d )
 total_error = inf;
 
 for i = 1:k
+    % Get random n coordinates from all coordinates
     random_indices = randi(size(coor1, 2), 1, n);
     random_coor1 = coor1(:,random_indices);
     random_coor2 = coor2(:,random_indices);
@@ -27,11 +28,15 @@ for i = 1:k
     h_projected_coor1 = P_temp * h_r_coor1;
     projected_coor1 = h_projected_coor1(1:2,:);
     
-    % Calculate error (euclidean distance)
+    % Calculate error (euclidean pixel distance)
     error_temp = pdist2(random_coor2', projected_coor1', 'euclidean');
     error_temp = diag(error_temp);
     
-    % Determine inliers
+    % Normalize error
+    % TO
+    
+    % Determine inlier count by comparing the error with the error 
+    % threshold t
     count_inlier = 0;
     count_all = 0;
     for j = 1:length(h_r_coor1)
