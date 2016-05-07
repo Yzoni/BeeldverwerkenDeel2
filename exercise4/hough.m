@@ -20,6 +20,7 @@ function h = hough(im, Thresh , nrho , ntheta)
 % Get image size
 [rows, cols] = size(im);
 
+% Get the edges of the image using canny edge detection
 edges = edge(im, 'canny', Thresh);
 
 % The  maximum  possible  value  of rho.
