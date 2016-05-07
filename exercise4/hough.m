@@ -20,7 +20,7 @@ function h = hough(im, Thresh , nrho , ntheta)
 % Get image size
 [rows, cols] = size(im);
 
-edges = edge(im, 'canny', Thresh)
+edges = edge(im, 'canny', Thresh);
 
 % The  maximum  possible  value  of rho.
 rhomax = sqrt(rows^2 + cols ^2);	
