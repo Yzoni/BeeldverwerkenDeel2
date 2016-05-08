@@ -12,6 +12,10 @@ function [lines] = houghlines(im, h, thresh)
 %           thresh  - The  threshold  level to use in the  Hough  Transform
 %                      to  decide  whether  an edge is  significant
 
+%%%%%%%%%%%%%%%%%%%%%%
+% TODO: ADD DILATATION
+%%%%%%%%%%%%%%%%%%%%%%
+
 % Get image size
 [rows_im, cols_im] = size(im);
 [rows_h, cols_h] = size(h);
