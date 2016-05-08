@@ -1,4 +1,4 @@
-function   houghlines(im, h, thresh)
+function [lines] = houghlines(im, h, thresh)
 % HOUGHLINES
 %
 % Function  takes an  image  and its  Hough  transform , finds  the
@@ -13,32 +13,54 @@ function   houghlines(im, h, thresh)
 %                      to  decide  whether  an edge is  significant
 
 % Get image size
-[rows, cols] = size(im);
+[rows_im, cols_im] = size(im);
+[rows_h, cols_h] = size(h);
 
-% The  maximum  possible  value  of rho.
-rhomax = sqrt(rows^2 + cols ^2);
+% The  maximum  possible  value  of rho. (diagonal of the image)
+rhomax = sqrt(rows_im^2 + cols_im ^2);
 
 % The  increment  in rho  between  successive entries  in the  accumulator  
 % matrix. Remember  we go  between +-rhomax.
-drho = 2* rhomax /(nrho -1);
+nrho = rows_h;
+drho = 2 * rhomax / (nrho - 1);
 
 % The  increment  in theta  between  entries.
-dtheta = pi/ntheta;
+ntheta = cols_h;
+dtheta = pi / ntheta;
 
 % Threshold the Hough Transformation
 threshold_h = h;
 threshold_h(h < thresh) = 0;
 
 % Form labeled connected components
-[L, nregions] = bwlabel(threshold_h);
+[bwl, nregions] = bwlabel(threshold_h);
 
-for n = 1: nregions
+% Init lines
+lines = zeros(nregions, 3);
+for n = 1:nregions
     % Form a mask  for  each  region.
     mask = bwl == n;
-
+    
     % Point -wise  multiply  mask by Hough  Transform
     region = mask .* h;    
-    % to give  you an  image  with  just  one  region  of
-    % the  Hough  Transform.
+    % to give  you an  image  with  just  one  region  of the  Hough
+    % Transform.
 
+    % Get rows and column index of max value
+    [~, idx] = max(region(:));
+    % Get the indices for the row and column with max value
+    [row, col] = ind2sub(size(region), idx);
+    
+    % Convert indices back to theta and rho
+    theta = drho * row;
+    rho = dtheta * col;
+    
+    % Generetate two points from theta and rho
+    [x1, y1, x2, y2] = thetarho2endpoints(theta, rho, rows_im, cols_im);
+    
+    % Create a line of homogenous coordinates
+    hom_coordinates = cross([x1, y1, 1], [x2, y2, 1]);
+    
+    % Save the coordinates as a (nregions × 3) matrix
+    lines(n, :) = hom_coordinates;
 end

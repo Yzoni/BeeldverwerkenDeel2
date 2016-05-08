@@ -23,15 +23,15 @@ function h = hough(im, Thresh , nrho , ntheta)
 % Get the edges of the image using canny edge detection
 edges = edge(im, 'canny', Thresh);
 
-% The  maximum  possible  value  of rho.
+% The  maximum  possible  value  of rho. (diagonal of the image)
 rhomax = sqrt(rows^2 + cols ^2);	
 
 % The  increment  in rho  between  successive entries  in the  accumulator  
 % matrix. Remember  we go  between +-rhomax.
-drho = 2* rhomax /(nrho -1);
+drho = 2 * rhomax / (nrho - 1);
 
 % The  increment  in theta  between  entries.
-dtheta = pi/ntheta;
+dtheta = pi / ntheta;
 
 % Array  of theta  values  across  the accumulator  matrix.
 thetas = 0: dtheta :(pi-dtheta );
