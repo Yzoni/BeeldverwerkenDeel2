@@ -65,6 +65,9 @@ for n = 1:nregions
     % Create a line of homogenous coordinates
     hom_coordinates = cross([x1, y1, 1], [x2, y2, 1]);
     
+    % Normalize homogeneous coordinates
+    hom_coordinates = hom_coordinates ./ sqrt(hom_coordinates(1)^2 + hom_coordinates(2)^2);
+    
     % Save the coordinates as a (nregions × 3) matrix
     lines(n, :) = hom_coordinates;
 end
