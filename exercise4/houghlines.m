@@ -1,4 +1,4 @@
-function [lines] = houghlines(im, h, thresh)
+function [ lines ] = houghlines(im, h, thresh)
 % HOUGHLINES
 %
 % Function  takes an  image  and its  Hough  transform , finds  the
