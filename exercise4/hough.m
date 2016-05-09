@@ -41,7 +41,7 @@ h = zeros(nrho, ntheta);
 % for  each x and y of  nonzero  edge  values:
 for x = 1:cols
     for y = 1:rows
-        if edges(x, y) ~= 0
+        if edges(y, x) ~= 0
             % for  each  theta in  thetas:
             for theta = thetas
                 % rho = evaluate  (1)
