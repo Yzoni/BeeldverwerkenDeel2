@@ -15,7 +15,7 @@ rows_shapes = 500;
 cols_shapes = 500;
 h_shapes = hough(im_shapes, [0.2, 0.8], rows_shapes, cols_shapes);
 %h_box = hough(im_box, [0.1, 0.9], 100, 100);
-%h_szeliski = hough(im_szeliski, [0.1, 0.9], 100, 100);
+h_szeliski = hough(im_szeliski, [0.2, 0.8], 100, 100);
 %h_billboard = hough(im_billboard, [0.1, 0.9], 100, 100);
 
 imtool(h_shapes, [0,80])
@@ -24,7 +24,7 @@ imtool(h_shapes, [0,80])
 %imtool(h_billboard, [])
 
 %%  Finding the Lines as Local Maxima
-[lines, coordinates] = houghlines(im_shapes, h_shapes, 100);
+[lines, coordinates] = houghlines(im_shapes, h_shapes, 130);
 
 imshow(im_shapes)
 hold on

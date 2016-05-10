@@ -20,6 +20,8 @@ function [ lines, coordinates ] = houghlines(im, h, thresh)
 [rows_im, cols_im] = size(im);
 [rows_h, cols_h] = size(h);
 
+h = imdilate(h, strel('rectangle',[2,2]));
+
 % The  maximum  possible  value  of rho. (diagonal of the image)
 rhomax = sqrt(rows_im^2 + cols_im ^2);
 
