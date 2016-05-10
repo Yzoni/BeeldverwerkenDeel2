@@ -13,8 +13,6 @@ function [ lines, coordinates ] = houghlines(im, h, thresh)
 %                      to  decide  whether  an edge is  significant
 
 %%%%%%%%%%%%%%%%%%%%%%
-% TODO: ADD DILATATION
-%%%%%%%%%%%%%%%%%%%%%%
 
 % Get image size
 [rows_im, cols_im] = size(im);

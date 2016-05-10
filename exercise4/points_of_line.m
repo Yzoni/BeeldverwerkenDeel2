@@ -6,17 +6,21 @@ function [ pts ] = points_of_line(points , line , epsilon)
 %     pts      - an  array of all  points  within  epsilon  of the  line
 
 % Transform points to homogenous coordinates
-points_h = [points, ones(size(points, 1), 1)];
-
-% The perpendicular distance from a line to a point is given by the dot
-% product.
-distance = dot(points_h, line);
+%points_h = [points, ones(size(points, 1), 1)];
+length(points)
+distance = zeros(1, length(points));
+for i=1:length(points)
+    % The perpendicular distance from a line to a point is given by the dot
+    % product.
+    distance(i) = dot(points(:, i)', line);
+end
 
 % Create an inlier mask
 inlier_mask = abs(distance) < epsilon;
 
 % Get all the inliers
-pts = points(inlier_mask, :);
+[~, pts] = find(inlier_mask);
+pts = points(:, pts');
 
 end
 

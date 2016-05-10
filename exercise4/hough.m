@@ -1,4 +1,4 @@
-function h = hough(im, Thresh , nrho , ntheta)
+function [ h, edges ] = hough(im, Thresh , nrho , ntheta)
 % HOUGH
 %
 % Function  takes a grey  scale  image , constructs  an edge  map by  applying
