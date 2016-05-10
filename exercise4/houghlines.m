@@ -1,4 +1,4 @@
-function [ lines ] = houghlines(im, h, thresh)
+function [ lines, coordinates ] = houghlines(im, h, thresh)
 % HOUGHLINES
 %
 % Function  takes an  image  and its  Hough  transform , finds  the
@@ -41,6 +41,9 @@ threshold_h(h < thresh) = 0;
 
 % Init lines
 lines = zeros(nregions, 3);
+
+coordinates = zeros(nregions, 4);
+
 for n = 1:nregions
     % Form a mask  for  each  region.
     mask = bwl == n;
@@ -56,11 +59,14 @@ for n = 1:nregions
     [row, col] = ind2sub(size(region), idx);
     
     % Convert indices back to theta and rho
-    theta = drho * row;
-    rho = dtheta * col;
+    rho = (row-nrho/2)*drho;
+    theta = (col-1)*dtheta;
+
     
     % Generetate two points from theta and rho
     [x1, y1, x2, y2] = thetarho2endpoints(theta, rho, rows_im, cols_im);
+    
+    coordinates(n, :) = [x1, x2, y1, y2];
     
     % Create a line of homogenous coordinates
     hom_coordinates = cross([x1, y1, 1], [x2, y2, 1]);

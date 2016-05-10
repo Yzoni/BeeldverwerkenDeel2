@@ -24,8 +24,11 @@ imtool(h_shapes, [0,80])
 %imtool(h_billboard, [])
 
 %%  Finding the Lines as Local Maxima
-lines = houghlines(im_shapes, h_shapes, 1)
+[lines, coordinates] = houghlines(im_shapes, h_shapes, 100);
+
 imshow(im_shapes)
 hold on
-
+for n=1:length(coordinates)
+    line([coordinates(n,1),coordinates(n,2)],[coordinates(n,3),coordinates(n,4)]);
+end
 hold off
