@@ -7,7 +7,6 @@ function [ pts ] = points_of_line(points , line , epsilon)
 
 % Transform points to homogenous coordinates
 %points_h = [points, ones(size(points, 1), 1)];
-length(points)
 distance = zeros(1, length(points));
 for i=1:length(points)
     % The perpendicular distance from a line to a point is given by the dot

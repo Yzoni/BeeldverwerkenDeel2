@@ -28,18 +28,26 @@ h_szeliski = hough(im_szeliski, [0.2, 0.8], rows_shapes, cols_shapes);
 
 imshow(im_shapes)
 hold on
-for n=1:length(coordinates)
-    line([coordinates(n,1),coordinates(n,2)],[coordinates(n,3),coordinates(n,4)]);
-end
+% for n=1:length(coordinates)
+n = 2;   
+line([coordinates(n,1),coordinates(n,2)],[coordinates(n,3),coordinates(n,4)]);
+% end
 hold off;
 [x, y] = find(edges_shapes);
 X = vertcat(x', y', ones(1, length(x)));
 
-pointofline = points_of_line(X, lines(1,:), 20);
+figure;
+imshow(im_shapes)
+pointofline = points_of_line(X, lines(n,:), 0.01);
+pointofline = pointofline(1:2,:);
+hold on;
+plot(pointofline(2,:),pointofline(1,:),'go');
 
-[lineshizzle, coordinates] = line_through_points(pointofline)
+hold off;
+
+[lineshizzle, coordinates] = line_through_points(pointofline, im_shapes);
 figure;
 imshow(im_shapes)
 hold on
-line([coordinates(1,1),coordinates(1,2)],[coordinates(1,3),coordinates(1,4)]);
+line([coordinates(1,3),coordinates(1,4)],[coordinates(1,1),coordinates(1,2)]);
 hold off
