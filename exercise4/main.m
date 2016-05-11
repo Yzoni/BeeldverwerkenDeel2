@@ -15,10 +15,10 @@ rows_shapes = 500;
 cols_shapes = 500;
 [h_shapes, edges_shapes] = hough(im_shapes, [0.2, 0.8], rows_shapes, cols_shapes);
 %h_box = hough(im_box, [0.1, 0.9], cols_shapes, cols_shapes);
-h_szeliski = hough(im_szeliski, [0.2, 0.8], rows_shapes, cols_shapes);
+%h_szeliski = hough(im_szeliski, [0.2, 0.8], rows_shapes, cols_shapes);
 %h_billboard = hough(im_billboard, [0.1, 0.9], cols_shapes, cols_shapes);
 
-%imtool(h_shapes, [0,80])
+imtool(h_shapes, [0,80])
 %imtool(h_box, [0,80])
 %imtool(h_szeliski, [0,80])
 %imtool(h_billboard, [0,80])
