@@ -7,13 +7,14 @@ function [ set ] = getImageFromCell( images, beginIndex, endIndex )
 tempImage = images{1}.img;
 [height, width ] = size(tempImage);
 
-set = zeros(height*width, endIndex-beginIndex);
+nsize = endIndex-beginIndex;
+set = zeros(height*width, nsize);
 for i=beginIndex:endIndex
     tempImage = images{i}.img;
     tempVector = reshape(tempImage, height*width, 1);
-    set(:, i) = tempVector;
+    set(:, i - beginIndex + 1) = tempVector;
 end
 
-
+size(set)
 end
 
