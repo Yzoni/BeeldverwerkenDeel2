@@ -15,6 +15,5 @@ for i=beginIndex:endIndex
     set(:, i - beginIndex + 1) = tempVector;
 end
 
-size(set)
 end
 
