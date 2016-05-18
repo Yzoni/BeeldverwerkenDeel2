@@ -23,12 +23,22 @@ clear i tempImage tempVector width height
 clear Xtest
 %%
 [Xmean, normalisedX] = meanXNormalisedX(Xtraining);
-eigenVectors = getEigenvectors(normalisedX, 20);
+eigenVectors = getEigenvectors(normalisedX, 50);
 
 %%
-trainingset = zeros(20, 300);
+trainingset = zeros(50, 300);
 for i=1:300
-    for j=1:20
+    for j=1:50
         trainingset(j, i) = dot(normalisedX(:, i), eigenVectors(:, j));
     end
 end
+%%
+vector = reshape(eigenVectors(:,1), 112, 150);
+imshow(vector, [])
+
+figure;
+vector = reshape(eigenVectors(:,2), 112, 150);
+imshow(vector, [])
+figure;
+vector = reshape(eigenVectors(:,50), 112, 150);
+imshow(vector, [])
