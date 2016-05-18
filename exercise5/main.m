@@ -3,28 +3,20 @@
 % 10786015, 10747958
 clear;
 load omni
+
 %%
 Xtraining = getImageFromCell( images, 1, 300);
 Xtest = getImageFromCell( images, 301, 550 );
 
 %%
 % Training set 
-d = 15;
+d = 50;
 [XmeanTrain, normalisedXtrain] = meanXNormalisedX(Xtraining);
 [eigenVectorsTrain, eigenWaardenTrain] = getEigenvectors(normalisedXtrain, d);
-
-%% preprocess testset
-trainingMean = repmat(XmeanTrain, 1, 250); 
-normalisedXtest = Xtest - trainingMean;
-
-[eigenVectorsTest, eigenWaardenTest] = getEigenvectors(normalisedXtrain, d);
-componentsTest = getPCAComponents(normalisedXtest, eigenVectorsTest, d);
+componentsTrain = getPCAComponents(normalisedXtrain, eigenVectorsTrain, d);
 
 %%
 plot(eigenWaardenTrain)
-
-%%
-componentsTrain = getPCAComponents(normalisedXtrain, eigenVectorsTrain, d);
 
 %%
 vector = reshape(eigenVectorsTrain(:,1), 112, 150);
@@ -36,6 +28,14 @@ imshow(vector, [])
 figure;
 vector = reshape(eigenVectorsTrain(:,10), 112, 150);
 imshow(vector, [])
+
+%% preprocess test set data
+trainingMean = repmat(XmeanTrain, 1, 250); 
+normalisedXtest = Xtest - trainingMean;
+
+% Create testset data
+[eigenVectorsTest, eigenWaardenTest] = getEigenvectors(normalisedXtrain, d);
+componentsTest = getPCAComponents(normalisedXtest, eigenVectorsTest, d);
 
 %%
 idx = knnsearch(componentsTrain', componentsTest')
@@ -55,9 +55,36 @@ end
 accuracy = correct / length
 
 %%
-
 figure;
 imshow(images{2}.img, [])
 
 figure;
 imshow(images{5}.img, [])
+
+plot(eigenWaarden)
+title('First 50 eigenwaarden and their values')
+ylabel('Value of eigenwaarde')
+xlabel('Number of eigenwaarde')
+components = getPCAComponents(normalisedX, eigenVectors, 15);
+
+%%
+for i=1:9
+    vector = reshape(eigenVectors(:,i), 112, 150);
+    imtool(vector , [-0.03 0.03])
+end
+
+%%
+[~, length] = size(components);
+randomInteger = floor(rand()*length);
+disp(' ');
+tic;
+[match1] = checkSet(components, randomInteger);
+toc;
+disp('Using PCA image detection, we found :');
+disp(match1);
+tic;
+[match2] = checkSet(Xtraining, randomInteger);
+toc;
+disp('Using naive image detection, we found :');
+disp(match2);
+
