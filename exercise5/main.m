@@ -17,28 +17,41 @@ componentsTrain = getPCAComponents(normalisedXtrain, eigenVectorsTrain, d);
 
 %%
 plot(eigenWaardenTrain)
+title('First 50 eigenwaarden and their values')
+ylabel('Value of eigenwaarde')
+xlabel('Number of eigenwaarde')
+
+for i=1:9
+    vector = reshape(eigenVectorsTrain(:,i), 112, 150);
+    imtool(vector , [-0.03 0.03])
+end
 
 %%
-vector = reshape(eigenVectorsTrain(:,1), 112, 150);
-imshow(vector, [])
-
-figure;
-vector = reshape(eigenVectorsTrain(:,2), 112, 150);
-imshow(vector, [])
-figure;
-vector = reshape(eigenVectorsTrain(:,10), 112, 150);
-imshow(vector, [])
+[height, length] = size(componentsTrain);
+randomInteger = floor(rand()*length);
+disp(' ');
+tic;
+[match1] = checkSet(componentsTrain, randomInteger);
+toc;
+disp('Number of components:');
+disp(height)
+disp('Using PCA image detection, we found:');
+disp(match1);
+tic;
+[match2] = checkSet(Xtraining, randomInteger);
+toc;
+disp('Using naive image detection, we found:');
+disp(match2);
 
 %% preprocess test set data
 trainingMean = repmat(XmeanTrain, 1, 250); 
 normalisedXtest = Xtest - trainingMean;
 
 % Create testset data
-[eigenVectorsTest, eigenWaardenTest] = getEigenvectors(normalisedXtrain, d);
-componentsTest = getPCAComponents(normalisedXtest, eigenVectorsTest, d);
+componentsTest = getPCAComponents(normalisedXtest, eigenVectorsTrain, d);
 
 %%
-idx = knnsearch(componentsTrain', componentsTest')
+idx = knnsearch(componentsTrain', componentsTest');
 
 % accuracy
 unit_threshold = 150;
@@ -52,6 +65,7 @@ for i=1:length
         correct = correct + 1;
     end
 end
+
 accuracy = correct / length
 
 %%
@@ -88,8 +102,7 @@ toc;
 disp('Using naive image detection, we found :');
 disp(match2);
 
-%%
-
+%% Expiriment with number of PCA componenents
 d = 1:5:50;
 [~, s] = size(d);
 accuracy = zeros(1, s);
@@ -98,10 +111,11 @@ for i=1:s
 end
 plot(d, accuracy)
 
-%%
+%% Test time when leaving out PCA step
 tic
 accuracy = expirmentAComponents(images, 15)
 toc
 tic
 accuracy = NoPCAexpirmentAComponents(images)
 toc
+
