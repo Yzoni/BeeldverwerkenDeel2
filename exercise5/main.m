@@ -112,9 +112,10 @@ end
 plot(d, accuracy)
 
 %% Test time when leaving out PCA step
-tic
-accuracy = expirmentAComponents(images, 15)
-toc
+%tic
+%accuracy = expirmentAComponents(images, 15)
+%toc
+disp('Analyzing images without PCA, we found :');
 tic
 accuracy = NoPCAexpirmentAComponents(images)
 toc

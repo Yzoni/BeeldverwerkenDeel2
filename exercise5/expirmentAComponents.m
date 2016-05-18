@@ -1,6 +1,5 @@
 function [ accuracy ] = expirmentAComponents( images, d)
-%EXPIRMENTACOMPONENTS Summary of this function goes here
-%   Detailed explanation goes here
+%Experiment funcion to measure the time vs the amount of componenents d
 Xtraining = getImageFromCell( images, 1, 300);
 Xtest = getImageFromCell( images, 301, 550 );
 
@@ -15,6 +14,7 @@ normalisedXtest = Xtest - trainingMean;
 % Create testset data
 componentsTest = getPCAComponents(normalisedXtest, eigenVectorsTrain, d);
 
+% KNN
 idx = knnsearch(componentsTrain', componentsTest');
 
 % accuracy

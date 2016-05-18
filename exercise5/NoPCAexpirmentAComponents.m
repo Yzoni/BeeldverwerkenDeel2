@@ -1,9 +1,10 @@
 function [ accuracy ] = expirmentAComponents(images)
-%EXPIRMENTACOMPONENTS Summary of this function goes here
-%   Detailed explanation goes here
+%Experiment function used to measure the time the image comparison takes withouth
+% PCA
 Xtraining = getImageFromCell( images, 1, 300);
 Xtest = getImageFromCell( images, 301, 550 );
 
+% KNN
 idx = knnsearch(Xtraining', Xtest');
 
 % accuracy
