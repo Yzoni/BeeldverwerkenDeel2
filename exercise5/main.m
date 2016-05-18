@@ -43,7 +43,7 @@ idx = knnsearch(componentsTrain', componentsTest')
 % accuracy
 unit_threshold = 150;
 correct = 0;
-[length, ~] = size(idx)
+[length, ~] = size(idx);
 for i=1:length
     train_image_pos = images{idx(i)}.position;
     test_image_pos = images{i + 300}.position;
@@ -88,3 +88,20 @@ toc;
 disp('Using naive image detection, we found :');
 disp(match2);
 
+%%
+
+d = 1:5:50;
+[~, s] = size(d);
+accuracy = zeros(1, s);
+for i=1:s
+    accuracy(i) = expirmentAComponents(images, d(i))
+end
+plot(d, accuracy)
+
+%%
+tic
+accuracy = expirmentAComponents(images, 15)
+toc
+tic
+accuracy = NoPCAexpirmentAComponents(images)
+toc
