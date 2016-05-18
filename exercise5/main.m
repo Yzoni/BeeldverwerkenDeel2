@@ -7,21 +7,33 @@ load omni
 Xtraining = getImageFromCell( images, 1, 300);
 
 %%
-d = 10;
+d = 50;
 
 [Xmean, normalisedX] = meanXNormalisedX(Xtraining);
 [eigenVectors, eigenWaarden] = getEigenvectors(normalisedX, d);
 %%
 plot(eigenWaarden)
+title('First 50 eigenwaarden and their values')
+ylabel('Value of eigenwaarde')
+xlabel('Number of eigenwaarde')
+components = getPCAComponents(normalisedX, eigenVectors, 15);
 %%
-components = getPCAComponents(normalisedX, eigenVectors, d);
-%%
-vector = reshape(eigenVectors(:,1), 112, 150);
-imshow(vector, [])
+for i=1:9
+    vector = reshape(eigenVectors(:,i), 112, 150);
+    imtool(vector , [-0.03 0.03])
+end
 
-figure;
-vector = reshape(eigenVectors(:,2), 112, 150);
-imshow(vector, [])
-figure;
-vector = reshape(eigenVectors(:,10), 112, 150);
-imshow(vector, [])
+%%
+[~, length] = size(components);
+randomInteger = floor(rand()*length);
+disp(' ');
+tic;
+[match1] = checkSet(components, randomInteger);
+toc;
+disp('Using PCA image detection, we found :');
+disp(match1);
+tic;
+[match2] = checkSet(Xtraining, randomInteger);
+toc;
+disp('Using naive image detection, we found :');
+disp(match2);
