@@ -4,34 +4,17 @@
 clear;
 load omni
 %%
-tempImage = images{1}.img;
-[height, width ] = size(tempImage);
-Xtraining = zeros(height*width, 300);
-for i=1:300
-    tempImage = images{i}.img;
-    tempVector = reshape(tempImage, height*width, 1);
-    Xtraining(:, i) = tempVector;
-end
-Xtest = zeros(height*width, length(images)-300);
-for i=301:length(images)
-    tempImage = images{i}.img;
-    tempVector = reshape(tempImage, height*width, 1);
-    Xtest(:, i-300) = tempVector;
-end
-clear i tempImage tempVector width height
+Xtraining = getImageFromCell( images, 1, 300);
 
-clear Xtest
 %%
+d = 10;
+
 [Xmean, normalisedX] = meanXNormalisedX(Xtraining);
-eigenVectors = getEigenvectors(normalisedX, 50);
-
+[eigenVectors, eigenWaarden] = getEigenvectors(normalisedX, d);
 %%
-trainingset = zeros(50, 300);
-for i=1:300
-    for j=1:50
-        trainingset(j, i) = dot(normalisedX(:, i), eigenVectors(:, j));
-    end
-end
+plot(eigenWaarden)
+%%
+components = getPCAComponents(normalisedX, eigenVectors, d);
 %%
 vector = reshape(eigenVectors(:,1), 112, 150);
 imshow(vector, [])
@@ -40,5 +23,5 @@ figure;
 vector = reshape(eigenVectors(:,2), 112, 150);
 imshow(vector, [])
 figure;
-vector = reshape(eigenVectors(:,50), 112, 150);
+vector = reshape(eigenVectors(:,10), 112, 150);
 imshow(vector, [])

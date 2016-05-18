@@ -1,4 +1,4 @@
-function [ eigenVectors ] = getEigenvectors( normalisedX, d )
+function [ eigenVectors, eigenWaarden ] = getEigenvectors( normalisedX, d )
 % Calculates the eigenvectors of the covarianceMatrix and returns the
 % vectors with the d-highest eigenwaarden
 %   X: matrix containing image-vectors
@@ -6,6 +6,7 @@ function [ eigenVectors ] = getEigenvectors( normalisedX, d )
 
 Q = normalisedX*normalisedX';
 
-[eigenVectors, ~] = eigs(Q, d);
+[eigenVectors, eigenWaarden] = eigs(Q, d);
+eigenWaarden = diag(eigenWaarden);
 end
 
