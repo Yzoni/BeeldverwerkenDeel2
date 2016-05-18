@@ -27,18 +27,20 @@ for i=1:9
 end
 
 %%
-[~, length] = size(componentsTrain);
+[height, length] = size(componentsTrain);
 randomInteger = floor(rand()*length);
 disp(' ');
 tic;
 [match1] = checkSet(componentsTrain, randomInteger);
 toc;
-disp('Using PCA image detection, we found :');
+disp('Number of components:');
+disp(height)
+disp('Using PCA image detection, we found:');
 disp(match1);
 tic;
 [match2] = checkSet(Xtraining, randomInteger);
 toc;
-disp('Using naive image detection, we found :');
+disp('Using naive image detection, we found:');
 disp(match2);
 
 %% preprocess test set data
