@@ -108,11 +108,15 @@ hold off;
 %% 6.3
 
 %% szeliski
-hyst = [0.2, 0.99];
-nrho = 500;
+clc;
+clear;
+im_szeliski = im2double(rgb2gray(imread('szeliski.png')));
+
+hyst = [0.1, 0.9];
+nrho = 200;
 ntheta = 200;
-thresh = 500;
-epsilon = 5;
+thresh = 100;
+epsilon = 0.1;
 
 [h_szeliski, edges_szeliski] = hough(im_szeliski, hyst, nrho, ntheta);
 
@@ -150,6 +154,93 @@ hold off;
 
 
 %% box
+clc;
+clear;
 
+im_box = im2double(rgb2gray(imread('box.png')));
+
+hyst = [0.2, 0.99];
+nrho = 200;
+ntheta = 200;
+thresh = 100;
+epsilon = 0.1;
+
+[h_box, edges_box] = hough(im_box, hyst, nrho, ntheta);
+
+[lines, coordinates] = houghlines(im_box, h_box, thresh);
+% points of line
+[x, y] = find(edges_box);
+X = vertcat(x', y', ones(1, length(x)));
+
+for i = 1:size(lines, 1)
+    pointofline = points_of_line(X, lines(i,:), epsilon);
+    pointofline = pointofline(1:2,:);
+    % Total square
+    [linesT(i,:), coordinatesT(i,:)] = line_through_points(pointofline, im_box);
+end
+
+% Get intersection points
+a = 0;
+for i = 1:size(linesT, 1) - 1
+    for j = i+1:size(linesT, 1)
+        a = a + 1;
+        intersection = cross([linesT(i, 2).'; linesT(i, 1).'; linesT(i, 3).'], [linesT(j, 2).'; linesT(j, 1).'; linesT(j, 3).']);
+        intersection = intersection ./ sqrt(intersection(1)^2 + intersection(2)^2);
+        intersections(a,:) = intersection ./ intersection(3);
+    end
+end
+
+% Plot points
+figure;
+imshow(im_box)
+hold on;
+for i = 1:size(intersections, 1)
+    plot(intersections(i,2), intersections(i,1),'r*');
+end
+hold off;
 
 %% billboard
+clc;
+clear;
+
+im_billboard = im2double(rgb2gray(imread('billboard.png')));
+
+hyst = [0.1, 0.85];
+nrho = 200;
+ntheta = 200;
+thresh = 150;
+epsilon = 0.1;
+
+[h_billboard, edges_billboard] = hough(im_billboard, hyst, nrho, ntheta);
+
+[lines, coordinates] = houghlines(im_billboard, h_billboard, thresh);
+% points of line
+[x, y] = find(edges_billboard);
+X = vertcat(x', y', ones(1, length(x)));
+
+for i = 1:size(lines, 1)
+    pointofline = points_of_line(X, lines(i,:), epsilon);
+    pointofline = pointofline(1:2,:);
+    % Total square
+    [linesT(i,:), coordinatesT(i,:)] = line_through_points(pointofline, im_billboard);
+end
+
+% Get intersection points
+a = 0;
+for i = 1:size(linesT, 1) - 1
+    for j = i+1:size(linesT, 1)
+        a = a + 1;
+        intersection = cross([linesT(i, 2).'; linesT(i, 1).'; linesT(i, 3).'], [linesT(j, 2).'; linesT(j, 1).'; linesT(j, 3).']);
+        intersection = intersection ./ sqrt(intersection(1)^2 + intersection(2)^2);
+        intersections(a,:) = intersection ./ intersection(3);
+    end
+end
+
+% Plot points
+figure;
+imshow(im_billboard)
+hold on;
+for i = 1:size(intersections, 1)
+    plot(intersections(i,2), intersections(i,1),'r*');
+end
+hold off;
